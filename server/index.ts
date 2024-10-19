@@ -34,7 +34,7 @@ const allUsers: User[] = [];
 io.on('connection', (socket: Socket) => {
   console.log(`a user connected ${socket.id}`);
 
-  socket.on('join', ({ id, username, room }: User) => {
+  socket.on('joinRoom', ({ id, username, room }: User) => {
     socket.join(room); // join the user to the socket room
     allUsers.push({ id, username, room }); // add user to the allUsers array
 

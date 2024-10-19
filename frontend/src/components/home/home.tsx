@@ -30,24 +30,24 @@ export default function Home({
   return (
     <div className={styles.home}>
       <h1>Home Page</h1>
-      <div className={styles.container}>
-        <input
-          type="text"
-          placeholder="Username..."
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-        <select
-          name="rooms"
-          id="rooms"
-          onChange={(e) => setRoom(e.target.value)}
-        >
-          <option value="">--Select Room--</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-        </select>
-        <button onClick={joinRoom}>Join Room</button>
-      </div>
+
+      <input
+        className={styles.input}
+        type="text"
+        placeholder="Username..."
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+      />
+      <select
+        className={styles.input}
+        name="rooms"
+        onChange={(e) => setRoom(e.target.value)}
+      >
+        <option value="">--Select Room--</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+      </select>
+      <button className={styles.button} onClick={joinRoom}>Join Room</button>
     </div>
   );
 }

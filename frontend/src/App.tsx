@@ -1,8 +1,10 @@
 import { useState } from 'react';
-import Home from './components/home/home';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import io from 'socket.io-client';
 import './App.css';
+
+import Home from './components/home/home';
+import Chat from './components/chat/chat';
 
 const socket = io('http://localhost:4000');
 
@@ -12,7 +14,7 @@ function App() {
 
   return (
     <Router>
-      <div className="cards">
+      <div id='app'>
         <Routes>
           <Route
             path="/"
@@ -26,6 +28,7 @@ function App() {
               />
             }
           />
+          <Route path="/chat" element={<Chat />} />
           <Route path="*" element={<h1>Page Not Found</h1>} /> {/* 404 page */}
         </Routes>
       </div>
