@@ -46,7 +46,7 @@ io.on('connection', (socket: Socket) => {
     };
 
     // send message to al users in the room
-    socket.to(room).emit('joinMessage', joinMessage);
+    socket.to(room).emit('receiveMessage', joinMessage);
     console.log(`${username} joined room ${room}`);
 
     const chatRoomUsers: User[] = allUsers.filter((user) => user.room === room);

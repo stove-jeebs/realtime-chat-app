@@ -1,9 +1,12 @@
+import { Socket } from 'socket.io-client';
 import styles from './chat.module.css';
 
-export default function Chat() {
+import Messages from './messages';
+
+export default function Chat({ socket }: { socket: Socket }) {
   return (
-    <>
-      <div>hello world</div>
-    </>
+    <div className={styles.messagesContainer}>
+      <Messages socket={socket} />
+    </div>
   );
 }

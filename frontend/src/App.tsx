@@ -28,7 +28,7 @@ function App() {
               />
             }
           />
-          <Route path="/chat" element={<Chat />} />
+          <Route path="/chat" element={<Chat socket={socket} />} />
           <Route path="*" element={<h1>Page Not Found</h1>} /> {/* 404 page */}
         </Routes>
       </div>
