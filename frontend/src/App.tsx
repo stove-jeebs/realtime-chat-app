@@ -1,14 +1,14 @@
-import { useState } from 'react'
-import Home from './components/home/home'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import io from 'socket.io-client'
-import './App.css'
+import { useState } from 'react';
+import Home from './components/home/home';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import io from 'socket.io-client';
+import './App.css';
 
-const socket = io('http://localhost:4000')
+const socket = io('http://localhost:4000');
 
 function App() {
-  const [username, setUsername] = useState('')
-  const [room, setRoom] = useState('')
+  const [username, setUsername] = useState('');
+  const [room, setRoom] = useState('');
 
   return (
     <Router>
@@ -30,7 +30,7 @@ function App() {
         </Routes>
       </div>
     </Router>
-  )
+  );
 }
 
-export default App
+export default App;

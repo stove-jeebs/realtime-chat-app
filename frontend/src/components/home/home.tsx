@@ -1,7 +1,6 @@
 import styles from './home.module.css';
 import { Socket } from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
-import { log } from 'console';
 
 interface HomeProps {
   username: string;
@@ -21,7 +20,11 @@ export default function Home({
   const navigate = useNavigate();
   const joinRoom = () => {
     if (room !== '' && username !== '')
-      socket.emit('join_room', { username: username, room: room });
+      socket.emit('joinRoom', {
+        id: socket.id,
+        username: username,
+        room: room,
+      });
     navigate('/chat', { replace: true }); // replace current url with new one
   };
   return (
