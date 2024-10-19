@@ -43,11 +43,14 @@ io.on('connection', (socket: Socket) => {
       message: `${username} has joined!`,
       room: room,
       timestamp: new Date(),
-    }
+    };
 
     // send message to al users in the room
     socket.to(room).emit('joinMessage', joinMessage);
     console.log(`${username} joined room ${room}`);
+
+    const chatRoomUsers: User[] = allUsers.filter((user) => user.room === room);
+    socket.emit('chatroom_users', chatRoomUsers); // list all the users in the room
   });
 
   socket.on('sendMessage', (msg) => {
