@@ -29,13 +29,13 @@ export default function Message({ socket }: { socket: Socket }) {
 
   return (
     <div className={styles.messageContainer}>
-      {messages.map((message, index) => (
+      {messages.map((msg, index) => (
         <div key={index} className={styles.message}>
           <div>
-            <span className={styles.username}>{message.username}:</span>
-            <span>{formatDate(message.timestamp)}</span>
+            <span className={styles.username}>{msg.username}:</span>
+            <span>{formatDate(msg.timestamp)}</span>
           </div>
-          <p>{message.message}</p>
+          <p>{msg.message}</p>
         </div>
       ))}
     </div>
