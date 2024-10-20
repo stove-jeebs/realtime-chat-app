@@ -39,8 +39,8 @@ export default function Chat({ socket, username, room }: ChatProps) {
 
   function sendMessage() {
     if (message !== '') {
-      const __createdtime__ = Date.now();
-      socket.emit('send_message', { username, room, message, __createdtime__ });
+      const timestamp = Date.now();
+      socket.emit('sendMessage', { username, room, message, timestamp });
       setMessage('');
     }
   }
