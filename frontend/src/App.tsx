@@ -3,8 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import io from 'socket.io-client';
 import './App.css';
 
-import Home from './components/home/home';
-import Chat from './components/chat/chat';
+import Home from './components/Home/Home';
+import Chat from './components/Chat/Chat';
 
 const socket = io('http://localhost:4000');
 
@@ -28,7 +28,10 @@ function App() {
               />
             }
           />
-          <Route path="/chat" element={<Chat socket={socket} />} />
+          <Route
+            path="/chat"
+            element={<Chat socket={socket} username={username} room={room} />}
+          />
           <Route path="*" element={<h1>Page Not Found</h1>} /> {/* 404 page */}
         </Routes>
       </div>

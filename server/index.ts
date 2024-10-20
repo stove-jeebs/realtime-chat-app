@@ -1,6 +1,6 @@
+import cors from 'cors';
 import express from 'express';
 import http from 'http';
-import cors from 'cors';
 import { Server, Socket } from 'socket.io';
 
 const app = express();
@@ -12,7 +12,6 @@ const io = new Server(server, {
   cors: {
     origin: '*',
     methods: ['GET', 'POST'],
-    // credentials: true,
   },
 });
 
