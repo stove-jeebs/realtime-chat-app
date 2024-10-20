@@ -67,6 +67,7 @@ export default function Chat({ socket, username, room }: ChatProps) {
           type="text"
           placeholder="Message"
           onChange={(e) => setMessage(e.target.value)}
+          value={message}
         />
         <button
           type="button"
