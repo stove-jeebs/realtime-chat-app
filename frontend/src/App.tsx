@@ -14,7 +14,7 @@ function App() {
 
   return (
     <Router>
-      <div id='app'>
+      <div id="app">
         <Routes>
           <Route
             path="/"

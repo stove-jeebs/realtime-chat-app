@@ -44,10 +44,13 @@ export default function Home({
         onChange={(e) => setRoom(e.target.value)}
       >
         <option value="">--Select Room--</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
+        <option value="room1">Room 1</option>
+        <option value="room2">Room 2</option>
+        <option value="room3">Room 3</option>
       </select>
-      <button className={styles.button} onClick={joinRoom}>Join Room</button>
+      <button className={styles.button} onClick={joinRoom}>
+        Join Room
+      </button>
     </div>
   );
 }
