@@ -26,10 +26,11 @@ export default function Chat({ socket, username, room }: ChatProps) {
         message,
       ]);
     });
+    console.log('message received');
 
     // clean up listener when component unmounts to prevent memory leaks
     return (): void => {
-      socket.off('receiveMessage');
+      socket.off(`receiveMessage`);
     };
   }, [socket]);
 
@@ -41,6 +42,7 @@ export default function Chat({ socket, username, room }: ChatProps) {
     if (message !== '') {
       const timestamp = Date.now();
       socket.emit('sendMessage', { username, room, message, timestamp });
+      console.log('message sent');
       setMessage('');
     }
   }

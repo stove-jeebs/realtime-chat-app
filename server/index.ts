@@ -10,7 +10,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: '*',
+    origin: 'http://localhost:3000',
     methods: ['GET', 'POST'],
   },
 });
@@ -52,10 +52,6 @@ io.on('connection', (socket: Socket) => {
     socket.emit('chatroom_users', chatRoomUsers); // list all the users in the room
   });
 
-  socket.on('sendMessage', (msg) => {
-    io.to(msg.room).emit('message', msg);
-  });
-
   socket.on('disconnect', () => {
     const userIndex = allUsers.findIndex((user) => user.id === socket.id);
     allUsers.splice(userIndex, 1);
@@ -63,4 +59,4 @@ io.on('connection', (socket: Socket) => {
   });
 });
 
-server.listen(port, () => 'server is running on port 4000');
+server.listen(port, () => `server is running on port ${port}`);

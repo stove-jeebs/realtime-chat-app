@@ -1,33 +1,33 @@
 {
-	"name": "server",
-	"version": "1.0.0",
-	"main": "index.js",
-	"scripts": {
-		"start": "node index.js",
-		"dev": "tsc && nodemon index.js",
-		"build": "esbuild index.js --bundle --platform=node --outfile=dist/index.js"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "ISC",
-	"dependencies": {
-		"axios": "^1.7.7",
-		"cors": "^2.8.5",
-		"dotenv": "^16.4.5",
-		"express": "^4.21.1",
-		"socket.io": "^4.8.0"
-	},
-	"devDependencies": {
-		"@eslint/js": "^9.13.0",
-		"@types/express": "^5.0.0",
-		"@types/node": "^22.7.6",
-		"esbuild": "^0.24.0",
-		"eslint": "^9.13.0",
-		"eslint-config-prettier": "^9.1.0",
-		"nodemon": "^3.1.7",
-		"prettier": "^3.3.3",
-		"typescript": "^5.6.3",
-		"typescript-eslint": "^8.10.0"
-	},
-	"description": ""
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "tsc && nodemon index.js",
+    "build": "esbuild ./index.js --bundle --platform=node --outfile=dist/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "socket.io": "^4.8.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.13.0",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.7.6",
+    "esbuild": "^0.24.0",
+    "eslint": "^9.13.0",
+    "eslint-config-prettier": "^9.1.0",
+    "nodemon": "^3.1.7",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.10.0"
+  },
+  "description": ""
 }
