@@ -1,4 +1,4 @@
-import styles from './home.module.css';
+import styles from './Home.module.css';
 import { Socket } from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
 

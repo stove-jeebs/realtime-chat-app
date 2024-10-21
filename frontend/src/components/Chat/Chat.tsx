@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Socket } from 'socket.io-client';
-import styles from './chat.module.css';
+import styles from './Chat.module.css';
 
 interface ChatMessage {
   username: string;
@@ -67,7 +67,7 @@ export default function Chat({ socket, username, room }: ChatProps) {
           type="text"
           placeholder="Message"
           onChange={(e) => setMessage(e.target.value)}
-          value={message}
+          value={message} // controlled by react state so it can be reset after sending message
         />
         <button
           type="button"
