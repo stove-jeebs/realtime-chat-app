@@ -1,6 +1,7 @@
 import cors from 'cors';
 import express from 'express';
 import http from 'http';
+import supabase from './services/supabase';
 import { Server, Socket } from 'socket.io';
 
 const app = express();
@@ -52,15 +53,27 @@ io.on('connection', (socket: Socket) => {
     socket.emit('chatroom_users', chatRoomUsers); // list all the users in the room
   });
 
-  socket.on('sendMessage', (data: ChatMessage) => {
-    const { username, message, room, timestamp }: ChatMessage = data;
-    io.to(room).emit('receiveMessage', data);
-    return { username, message, timestamp };
+  socket.on('sendMessage', async (msg: ChatMessage) => {
+    const { username, message, room, timestamp }: ChatMessage = msg;
+    // insert messages into supabase
+    const { error } = await supabase.from('messages').insert({
+      username: username,
+      message: message,
+      room: room,
+      timestamp: timestamp,
+    });
+    if (error) {
+      console.error('Error inserting message:', error);
+      // Optionally, inform the client about the error
+      socket.emit('errorMessage', 'Failed to send message.');
+      return;
+    }
+    io.to(room).emit('receiveMessage', msg);
   });
 
   socket.on('disconnect', () => {
     const userIndex = allUsers.findIndex((user) => user.id === socket.id);
-    allUsers.splice(userIndex, 1);
+    if (userIndex !== -1) allUsers.splice(userIndex, 1);
     console.log('user disconnected');
   });
 });
