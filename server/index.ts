@@ -21,7 +21,7 @@ interface User {
   room: string;
 }
 
-interface Message {
+interface ChatMessage {
   username: string;
   message: string;
   room: string;
@@ -37,7 +37,7 @@ io.on('connection', (socket: Socket) => {
     socket.join(room); // join the user to the socket room
     allUsers.push({ id, username, room }); // add user to the allUsers array
 
-    const joinMessage: Message = {
+    const joinMessage: ChatMessage = {
       username: 'ChatBot',
       message: `${username} has joined!`,
       room: room,
@@ -52,8 +52,8 @@ io.on('connection', (socket: Socket) => {
     socket.emit('chatroom_users', chatRoomUsers); // list all the users in the room
   });
 
-  socket.on('sendMessage', (data: Message) => {
-    const { username, message, room, timestamp }: Message = data;
+  socket.on('sendMessage', (data: ChatMessage) => {
+    const { username, message, room, timestamp }: ChatMessage = data;
     io.to(room).emit('receiveMessage', data);
     return { username, message, timestamp };
   });
