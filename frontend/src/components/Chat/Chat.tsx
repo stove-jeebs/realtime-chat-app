@@ -6,7 +6,7 @@ interface ChatMessage {
   username: string;
   message: string;
   room: string;
-  timestamp: Date;
+  timestamp: string;
 }
 
 interface ChatProps {
@@ -26,7 +26,6 @@ export default function Chat({ socket, username, room }: ChatProps) {
         message,
       ]);
     });
-    console.log('message received');
 
     // clean up listener when component unmounts to prevent memory leaks
     return (): void => {
@@ -34,15 +33,15 @@ export default function Chat({ socket, username, room }: ChatProps) {
     };
   }, [socket]);
 
-  function formatDate(timestamp: Date): string {
-    return timestamp.toLocaleString();
+  function formatDate(timestamp: string): string {
+    const date = new Date(timestamp);
+    return date.toLocaleString();
   }
 
   function sendMessage() {
     if (message !== '') {
-      const timestamp = new Date();
+      const timestamp = new Date().toISOString();
       socket.emit('sendMessage', { username, room, message, timestamp });
-      console.log('message sent');
       setMessage('');
     }
   }

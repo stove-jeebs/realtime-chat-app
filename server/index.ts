@@ -25,7 +25,7 @@ interface ChatMessage {
   username: string;
   message: string;
   room: string;
-  timestamp: Date;
+  timestamp: string;
 }
 
 const allUsers: User[] = [];
@@ -41,7 +41,7 @@ io.on('connection', (socket: Socket) => {
       username: 'ChatBot',
       message: `${username} has joined!`,
       room: room,
-      timestamp: new Date(),
+      timestamp: new Date().toISOString(),
     };
 
     // send message to all users in the room, including the user
