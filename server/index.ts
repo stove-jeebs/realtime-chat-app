@@ -52,6 +52,12 @@ io.on('connection', (socket: Socket) => {
     socket.emit('chatroom_users', chatRoomUsers); // list all the users in the room
   });
 
+  socket.on('sendMessage', (data: Message) => {
+    const { username, message, room, timestamp }: Message = data;
+    io.to(room).emit('receiveMessage', data);
+    return { username, message, timestamp };
+  });
+
   socket.on('disconnect', () => {
     const userIndex = allUsers.findIndex((user) => user.id === socket.id);
     allUsers.splice(userIndex, 1);

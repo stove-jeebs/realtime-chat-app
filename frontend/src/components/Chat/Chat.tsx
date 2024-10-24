@@ -67,7 +67,7 @@ export default function Chat({ socket, username, room }: ChatProps) {
         <input
           className={styles.input}
           type="text"
-          placeholder="Message"
+          placeholder="Message here..."
           onChange={(e) => setMessage(e.target.value)}
           value={message} // controlled by react state so it can be reset after sending message
         />
