@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Socket } from 'socket.io-client';
 import styles from './Chat.module.css';
 
@@ -27,9 +27,14 @@ export default function Chat({ socket, username, room }: ChatProps) {
       ]);
     });
 
+    socket.on('chatHistory', (messages: ChatMessage[]): void => {
+      setMessages(messages);
+    });
+
     // clean up listener when component unmounts to prevent memory leaks
     return (): void => {
       socket.off(`receiveMessage`);
+      socket.off('chatHistory');
     };
   }, [socket]);
 
