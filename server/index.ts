@@ -2,7 +2,10 @@ import cors from 'cors';
 import express from 'express';
 import http from 'http';
 import { Server, Socket } from 'socket.io';
-import supabase from './services/supabase';
+import {
+  getSupabaseMessage,
+  saveSupabaseMessage,
+} from './services/supabaseUtils';
 
 const app = express();
 const port = 4000;
@@ -22,7 +25,7 @@ interface User {
   room: string;
 }
 
-interface ChatMessage {
+export interface ChatMessage {
   id?: number;
   username: string;
   message: string;
@@ -31,34 +34,6 @@ interface ChatMessage {
 }
 
 const allUsers: User[] = [];
-
-async function saveSupabaseMessage(
-  msg: ChatMessage,
-  socket: Socket
-): Promise<void> {
-  const { error } = await supabase.from('chat_messages').insert(msg);
-  if (error) {
-    console.error('Error inserting message:', error);
-    // Optionally, inform the client about the error
-    socket.emit('errorMessage', 'Failed to send message.');
-  }
-}
-
-async function getSupabaseMessage(room: string): Promise<ChatMessage[]> {
-  const { data, error } = await supabase
-    .from('chat_messages')
-    .select()
-    .eq('room', room)
-    .order('timestamp', { ascending: true });
-
-  if (error) {
-    console.error('Error fetching messages:', error);
-    return [];
-  }
-  if (data === null) return [];
-
-  return data;
-}
 
 io.on('connection', (socket: Socket) => {
   console.log(`a user connected ${socket.id}`);
@@ -74,7 +49,7 @@ io.on('connection', (socket: Socket) => {
       timestamp: new Date().toISOString(),
     };
 
-    const chatHistory = await getSupabaseMessage(room);
+    const chatHistory: ChatMessage[] = await getSupabaseMessage(room);
     await saveSupabaseMessage(joinMessage, socket);
     const displayMessage = [...chatHistory, joinMessage];
 
