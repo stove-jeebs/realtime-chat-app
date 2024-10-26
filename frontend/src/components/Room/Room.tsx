@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Socket } from 'socket.io-client';
+import styles from './Room.module.css';
 
 interface User {
   id: string;
@@ -29,17 +30,19 @@ export default function Room({ socket, room }: RoomProps) {
     navigate('/', { replace: true });
   }
   return (
-    <div>
+    <div className={styles.roomContainer}>
       <h1>{room}</h1>
       <div>
-        <h2>Users</h2>
+        <h2>Users:</h2>
         <ul>
           {roomUsers.map((user: User, index: number) => (
             <li key={index}>{user.username}</li>
           ))}
         </ul>
       </div>
-      <button onClick={leaveRoom}>Leave</button>
+      <button className={styles.leaveBtn} onClick={leaveRoom}>
+        Leave
+      </button>
     </div>
   );
 }

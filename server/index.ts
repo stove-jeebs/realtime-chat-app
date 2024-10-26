@@ -52,8 +52,6 @@ io.on('connection', (socket: Socket) => {
 
     // get all previous messages from supabase
     const chatHistory: ChatMessage[] = await getSupabaseMessage(room);
-    // insert joinMessage to supabase
-    await saveSupabaseMessage(joinMessage, socket);
     const displayMessage = [...chatHistory, joinMessage];
 
     // send message to all users in the room, including the user
