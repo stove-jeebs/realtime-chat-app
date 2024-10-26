@@ -26,7 +26,6 @@ interface User {
 }
 
 export interface ChatMessage {
-  id?: number;
   username: string;
   message: string;
   room: string;
