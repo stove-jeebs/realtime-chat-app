@@ -26,7 +26,7 @@ export default function Room({ socket, room }: RoomProps) {
   }, [socket]);
 
   function leaveRoom(): void {
-    socket.emit('room:leave', room);
+    socket.emit('room:leave');
     navigate('/', { replace: true });
   }
   return (
