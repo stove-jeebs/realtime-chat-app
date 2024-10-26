@@ -56,13 +56,13 @@ export default function Chat({ socket, username, room }: ChatProps) {
     <>
       <Room socket={socket} room={room} />
 
-      <div>
+      <div className={styles.chat}>
         {/* message container */}
-        <div className={styles.messageContainer}>
+        <div className={styles.messagesContainer}>
           {messages.map((msg: ChatMessage, index: number) => (
             <div key={index} className={styles.message}>
               <div>
-                <span className={styles.username}>{msg.username}:</span>
+                <span>{msg.username}</span>
                 <span>{formatDate(msg.timestamp)}</span>
               </div>
               <p>{msg.message}</p>
@@ -81,7 +81,7 @@ export default function Chat({ socket, username, room }: ChatProps) {
           />
           <button
             type="button"
-            className="sendMessageButton"
+            className={styles.sendMessageButton}
             onClick={sendMessage}
           >
             Send Message
