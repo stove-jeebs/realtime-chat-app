@@ -18,15 +18,15 @@ export default function Home({
   socket,
 }: HomeProps) {
   const navigate = useNavigate();
-  const joinRoom = () => {
+  function joinRoom(): void {
     if (room !== '' && username !== '')
-      socket.emit('joinRoom', {
+      socket.emit('room:join', {
         id: socket.id,
         username: username,
         room: room,
       });
     navigate('/chat', { replace: true }); // replace current url with new one
-  };
+  }
   return (
     <div className={styles.home}>
       <h1>Home Page</h1>

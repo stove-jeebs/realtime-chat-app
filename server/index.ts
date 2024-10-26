@@ -32,12 +32,14 @@ export interface ChatMessage {
   timestamp: string;
 }
 
-const allUsers: User[] = [];
+let allUsers: User[] = [];
+
+function getRoomUsers(room: string): User[] {
+  return allUsers.filter((user: User) => user.room == room);
+}
 
 io.on('connection', (socket: Socket) => {
-  console.log(`a user connected ${socket.id}`);
-
-  socket.on('joinRoom', async ({ id, username, room }: User) => {
+  socket.on('room:join', async ({ id, username, room }: User) => {
     socket.join(room); // join the user to the socket room
     allUsers.push({ id, username, room }); // add user to the allUsers array
 
@@ -48,32 +50,31 @@ io.on('connection', (socket: Socket) => {
       timestamp: new Date().toISOString(),
     };
 
+    // get all previous messages from supabase
     const chatHistory: ChatMessage[] = await getSupabaseMessage(room);
+    // insert joinMessage to supabase
     await saveSupabaseMessage(joinMessage, socket);
     const displayMessage = [...chatHistory, joinMessage];
 
     // send message to all users in the room, including the user
-    io.to(room).emit('chatHistory', displayMessage);
-    console.log(`${username} joined room ${room}`);
+    io.to(room).emit('chat:history', displayMessage);
 
-    const chatRoomUsers: User[] = allUsers.filter(
-      (user: User): boolean => user.room === room
-    );
-    socket.emit('chatroom_users', chatRoomUsers); // list all the users in the room
+    // list all the users in the room
+    const chatRoomUsers = getRoomUsers(room);
+    io.to(room).emit('room:list_users', chatRoomUsers);
   });
 
-  socket.on('sendMessage', async (msg: ChatMessage): Promise<void> => {
+  socket.on('chat:send', async (msg: ChatMessage): Promise<void> => {
     // insert messages into supabase
     saveSupabaseMessage(msg, socket);
-    io.to(msg.room).emit('receiveMessage', msg);
+    io.to(msg.room).emit('chat:receive', msg);
   });
 
-  socket.on('disconnect', () => {
-    const userIndex = allUsers.findIndex(
-      (user: User): boolean => user.id === socket.id
-    );
-    if (userIndex !== -1) allUsers.splice(userIndex, 1);
-    console.log('user disconnected');
+  socket.on('room:leave', (room: string) => {
+    socket.leave(room);
+    allUsers = allUsers.filter((user: User) => user.id != socket.id);
+    const chatRoomUsers: User[] = getRoomUsers(room);
+    io.to(room).emit('room:list_users', chatRoomUsers);
   });
 });
 

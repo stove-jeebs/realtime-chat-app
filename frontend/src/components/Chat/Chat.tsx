@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Socket } from 'socket.io-client';
 import styles from './Chat.module.css';
+import Room from '../Room/Room';
 
 interface ChatMessage {
   username: string;
@@ -20,21 +21,21 @@ export default function Chat({ socket, username, room }: ChatProps) {
   const [message, setMessage] = useState<string>('');
 
   useEffect(() => {
-    socket.on('receiveMessage', (message: ChatMessage): void => {
+    socket.on('chat:receive', (message: ChatMessage): void => {
       setMessages((prevMessages: ChatMessage[]): ChatMessage[] => [
         ...prevMessages,
         message,
       ]);
     });
 
-    socket.on('chatHistory', (messages: ChatMessage[]): void => {
+    socket.on('chat:history', (messages: ChatMessage[]): void => {
       setMessages(messages);
     });
 
     // clean up listener when component unmounts to prevent memory leaks
     return (): void => {
-      socket.off(`receiveMessage`);
-      socket.off('chatHistory');
+      socket.off(`chat:receive`);
+      socket.off('chat:history');
     };
   }, [socket]);
 
@@ -43,46 +44,50 @@ export default function Chat({ socket, username, room }: ChatProps) {
     return date.toLocaleString();
   }
 
-  function sendMessage() {
+  function sendMessage(): void {
     if (message !== '') {
       const timestamp = new Date().toISOString();
-      socket.emit('sendMessage', { username, room, message, timestamp });
+      socket.emit('chat:send', { username, room, message, timestamp });
       setMessage('');
     }
   }
 
   return (
-    <div>
-      {/* message container */}
-      <div className={styles.messageContainer}>
-        {messages.map((msg: ChatMessage, index: number) => (
-          <div key={index} className={styles.message}>
-            <div>
-              <span className={styles.username}>{msg.username}:</span>
-              <span>{formatDate(msg.timestamp)}</span>
-            </div>
-            <p>{msg.message}</p>
-          </div>
-        ))}
-      </div>
+    <>
+      <Room socket={socket} room={room} />
 
-      {/* send message */}
-      <div className={styles.sendMessageContainer}>
-        <input
-          className={styles.input}
-          type="text"
-          placeholder="Message here..."
-          onChange={(e) => setMessage(e.target.value)}
-          value={message} // controlled by react state so it can be reset after sending message
-        />
-        <button
-          type="button"
-          className="sendMessageButton"
-          onClick={sendMessage}
-        >
-          Send Message
-        </button>
+      <div>
+        {/* message container */}
+        <div className={styles.messageContainer}>
+          {messages.map((msg: ChatMessage, index: number) => (
+            <div key={index} className={styles.message}>
+              <div>
+                <span className={styles.username}>{msg.username}:</span>
+                <span>{formatDate(msg.timestamp)}</span>
+              </div>
+              <p>{msg.message}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* send message */}
+        <div className={styles.sendMessageContainer}>
+          <input
+            className={styles.input}
+            type="text"
+            placeholder="Message here..."
+            onChange={(e) => setMessage(e.target.value)}
+            value={message} // controlled by react state so it can be reset after sending message
+          />
+          <button
+            type="button"
+            className="sendMessageButton"
+            onClick={sendMessage}
+          >
+            Send Message
+          </button>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
