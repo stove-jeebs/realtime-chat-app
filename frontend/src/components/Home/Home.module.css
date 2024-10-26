@@ -15,7 +15,7 @@
 }
 
 .input {
-  padding: .8em 1em;
+  padding: 0.8em 1em;
   border-radius: 5px;
   border: 1px solid rgb(63, 73, 204);
   box-sizing: border-box;
@@ -25,7 +25,7 @@
 .button {
   background: rgb(0, 24, 111);
   color: white;
-  padding: .6em 1em;
+  padding: 0.6em 1em;
   border: none;
   border-radius: 5px;
   font-size: large;
@@ -36,3 +36,4 @@
 .button:hover {
   background: rgb(63, 73, 204);
 }
+

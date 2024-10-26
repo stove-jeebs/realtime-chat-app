@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Socket } from 'socket.io-client';
 import styles from './Chat.module.css';
 import Room from '../Room/Room';
@@ -19,6 +19,7 @@ interface ChatProps {
 export default function Chat({ socket, username, room }: ChatProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [message, setMessage] = useState<string>('');
+  const messagesRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     socket.on('chat:receive', (message: ChatMessage): void => {
@@ -39,6 +40,10 @@ export default function Chat({ socket, username, room }: ChatProps) {
     };
   }, [socket]);
 
+  useEffect(() => {
+    messagesRef.current?.scrollTo(0, messagesRef.current.scrollHeight);
+  }, [messages]);
+
   function formatDate(timestamp: string): string {
     const date = new Date(timestamp);
     return date.toLocaleString();
@@ -58,7 +63,7 @@ export default function Chat({ socket, username, room }: ChatProps) {
 
       <div className={styles.chat}>
         {/* message container */}
-        <div className={styles.messagesContainer}>
+        <div className={styles.messagesContainer} ref={messagesRef}>
           {messages.map((msg: ChatMessage, index: number) => (
             <div key={index} className={styles.message}>
               <div>
