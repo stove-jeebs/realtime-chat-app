@@ -62,25 +62,50 @@ A real-time chat application built with React, TypeScript, Vite, Node.js, Expres
 ```
 realtime-chat-app/
 ├── frontend/
+│   ├── eslint.config.js
+│   ├── index.html
+│   ├── package.json
+│   ├── package-lock.json
 │   ├── src/
-│   │   ├── components/
+│   │   ├── App.css
 │   │   ├── App.tsx
+│   │   ├── components/
+│   │   │   ├── Chat/
+│   │   │   │   ├── Chat.module.css
+│   │   │   │   └── Chat.tsx
+│   │   │   ├── Home/
+│   │   │   │   ├── Home.module.css
+│   │   │   │   └── Home.tsx
+│   │   │   └── Room/
+│   │   │       ├── Room.module.css
+│   │   │       └── Room.tsx
+│   │   ├── index.css
 │   │   ├── main.tsx
-│   │   └── ...other files
-│   ├── public/
-│   ├── vite.config.ts
-│   ├── package.json
-│   └── ...other files
-├── server/
-│   ├── src/
-│   │   ├── index.ts
-│   │   ├── supabaseClient.ts
-│   │   └── ...other files
-│   ├── package.json
+│   │   └── vite-env.d.ts
+│   ├── tsconfig.app.json
+│   ├── tsconfig.app.tsbuildinfo
 │   ├── tsconfig.json
-│   └── ...other files
+│   ├── tsconfig.node.json
+│   ├── tsconfig.node.tsbuildinfo
+│   └── vite.config.ts
+├── package-lock.json
 ├── README.md
-└── ...other files
+└── server/
+    ├── database.types.js
+    ├── database.types.ts
+    ├── dist/
+    │   └── index.js
+    ├── eslint.config.mjs
+    ├── index.js
+    ├── index.ts
+    ├── package.json
+    ├── package-lock.json
+    ├── services/
+    │   ├── supabase.js
+    │   ├── supabase.ts
+    │   ├── supabaseUtils.js
+    │   └── supabaseUtils.ts
+    └── tsconfig.json
 ```
 
 ---
@@ -98,7 +123,7 @@ realtime-chat-app/
 1. **Clone the Repository**
 
    ```bash
-   git clone https://github.com/your-username/realtime-chat-app.git
+   git clone https://github.com/stove-jeebs/realtime-chat-app.git
    ```
 
 2. **Navigate to the Project Directory**
@@ -141,7 +166,7 @@ realtime-chat-app/
 
 3. **Access the Frontend**
 
-   Open your browser and navigate to [http://localhost:5173](http://localhost:5173).
+   Open your browser and navigate to [http://localhost:3000](http://localhost:3000).
 
 ### **Running the Backend**
 
@@ -240,3 +265,4 @@ realtime-chat-app/
 - [Supabase](https://supabase.com/) for providing an open-source Firebase alternative.
 - [Socket.IO](https://socket.io/) for enabling real-time bidirectional event-based communication.
 - [Vite](https://vitejs.dev/) for fast and modern frontend tooling.
+- Special thanks to [freeCodeCamp's](https://www.freecodecamp.org/news/build-a-realtime-chat-app-with-react-express-socketio-and-harperdb/) tutorial for being a foundational guide in building this application.
