@@ -91,6 +91,11 @@ export default function Chat({ socket, username, room }: ChatProps) {
             type="text"
             placeholder="Message here..."
             onChange={(e) => setMessage(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                sendMessage();
+              }
+            }}
             value={message} // controlled by react state so it can be reset after sending message
           />
           <button
