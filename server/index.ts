@@ -36,7 +36,6 @@ export interface ChatMessage {
 }
 
 let allUsers: User[] = [];
-let chatRoom = '';
 
 function getRoomUsers(room: string): User[] {
   return allUsers.filter((user: User) => user.room == room);
@@ -46,7 +45,7 @@ io.on('connection', (socket: Socket) => {
   socket.on('room:join', async ({ id, username, room }: User) => {
     socket.join(room); // join the user to the socket room
     allUsers.push({ id, username, room }); // add user to the allUsers array
-    chatRoom = room;
+    socket.data.room = room; // store room in socket data
 
     const joinMessage: ChatMessage = {
       username: 'ChatBot',
@@ -74,17 +73,19 @@ io.on('connection', (socket: Socket) => {
   });
 
   socket.on('room:leave', () => {
-    socket.leave(chatRoom);
+    const room = socket.data.room;
+    socket.leave(room);
     allUsers = allUsers.filter((user: User) => user.id != socket.id);
-    const chatRoomUsers: User[] = getRoomUsers(chatRoom);
-    io.to(chatRoom).emit('room:list_users', chatRoomUsers);
+    const chatRoomUsers: User[] = getRoomUsers(room);
+    io.to(room).emit('room:list_users', chatRoomUsers);
   });
 
   socket.on('disconnect', () => {
-    socket.leave(chatRoom);
+    const room = socket.data.room;
+    socket.leave(room);
     allUsers = allUsers.filter((user: User) => user.id != socket.id);
-    const chatRoomUsers: User[] = getRoomUsers(chatRoom);
-    io.to(chatRoom).emit('room:list_users', chatRoomUsers);
+    const chatRoomUsers: User[] = getRoomUsers(room);
+    io.to(room).emit('room:list_users', chatRoomUsers);
   });
 });
 
