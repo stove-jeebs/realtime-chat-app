@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { Socket } from 'socket.io-client';
 import styles from './Chat.module.css';
 import Room from '../Room/Room';
+import { useNavigate } from 'react-router-dom';
 
 interface ChatMessage {
   username: string;
@@ -20,6 +21,14 @@ export default function Chat({ socket, username, room }: ChatProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [message, setMessage] = useState<string>('');
   const messagesRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!username || !room) {
+      console.log('Username or room missing. Redirecting to home.');
+      navigate('/', { replace: true });
+    }
+  }, [username, room, navigate]);
 
   useEffect(() => {
     socket.on('chat:receive', (message: ChatMessage): void => {

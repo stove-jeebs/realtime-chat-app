@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import io from 'socket.io-client';
 import './App.css';
 
-import Home from './components/Home/Home';
 import Chat from './components/Chat/Chat';
+import Home from './components/Home/Home';
 
 const socket = io(import.meta.env.VITE_SOCKET_URL);
 

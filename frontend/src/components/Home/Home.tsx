@@ -1,6 +1,7 @@
 import styles from './Home.module.css';
 import { Socket } from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 interface HomeProps {
   username: string;
@@ -27,6 +28,7 @@ export default function Home({
       });
     navigate('/chat', { replace: true }); // replace current url with new one
   }
+
   return (
     <div className={styles.home}>
       <h1>Home Page</h1>
