@@ -6,7 +6,7 @@ import './App.css';
 import Home from './components/Home/Home';
 import Chat from './components/Chat/Chat';
 
-const socket = io('http://localhost:4000');
+const socket = io(import.meta.env.VITE_SOCKET_URL);
 
 function App() {
   const [username, setUsername] = useState('');
