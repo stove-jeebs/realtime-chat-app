@@ -1,7 +1,6 @@
 import styles from './Home.module.css';
 import { Socket } from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
 
 interface HomeProps {
   username: string;
